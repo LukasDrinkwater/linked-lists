@@ -103,11 +103,12 @@ class LinkedList {
     //   return console.log("List is empty");
     // }
     while (node) {
-      console.log(value);
-      console.log(node.data);
-      if (node.data.name === value) {
-        return console.log(true);
-      }
+      // console.log(value);
+      // console.log(node.data);
+
+      // if (node.data.name === value) {
+      //   return console.log(true);
+      // }
       node = node.nextNode;
     }
   }
@@ -124,28 +125,18 @@ list.prepend({ name: "roo", age: 35 });
 
 console.log(list.contains("roo"));
 
-// console.log(list);
+// Three methods to convert objects into arrays
+// Object.keys() converts property names into array
+// Object.values()  covnerts property values into array
+// Object.entries() converts both
 
-// append(data) {
-//     const node = this.head;
-//     // console.log(this);
-//     if (node === null) {
-//       this.head = new Node(data);
-//     } else if (node != null) {
-//       while (node) {
-//         // console.log(node.data.name);
+// map method
+const newResult = result.map((item) => {
+  const [xx, xx] = item;
+  return xx, xx;
+});
 
-//         const searchList = function (node) {
-//           let previousNode = node;
-//           console.log(previousNode.data.name);
-//           if (node.nextNode === null) {
-//             node.nextNode = new Node(data);
-//           } else if (node.nextNode === null && previousNode.nextNode === null) {
-//             node.nextNode = new Node(data);
-//             previousNode.nextNode = node;
-//           }
-//         };
-//         return searchList(node);
-//       }
-//     }
-//   }
+// for of method
+for (const [xx, xx] of result) {
+  console.log(xx, xx);
+}
