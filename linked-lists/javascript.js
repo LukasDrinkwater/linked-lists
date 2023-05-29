@@ -1,7 +1,8 @@
 class Node {
-  constructor(data = {}, nextNode = null) {
+  constructor(data = {}, nextNode = null, prevNode = null) {
     this.data = data;
     this.nextNode = nextNode;
+    this.prevNode = prevNode;
   }
 }
 
@@ -28,6 +29,8 @@ class LinkedList {
         node = node.nextNode;
       }
       node.nextNode = new Node(data);
+      node.nextNode.prevNode = node; //updates the new nodes .nextNode
+      //to be the previous node.
     }
   }
   prepend(data) {
@@ -37,6 +40,7 @@ class LinkedList {
     } else {
       this.head = new Node(data); //sets the new node to this.head/start of the
       // list
+      node.prevNode = this.head; //set the old head .prevNode to the new node
       this.head.nextNode = node; //node is still the this.head from the start
       // so it updates the new this.head nextNode and sets it to the previous
       // head
@@ -80,19 +84,35 @@ class LinkedList {
     let node = this.head;
     if (node.nextNode === null) {
       this.head = null;
-    } else
+    } else {
       while (node.nextNode) {
-        console.log(node);
+        // loops through until .nextNode is blank
         node = node.nextNode;
-        if (node.nextNode === null) {
-          console.log("here");
-          console.log(node);
-          node = null;
-          return;
-        }
       }
-
-    // console.log("out while", node);
+      // when nextNode is blank i sets the current node .prevNode null
+      // and the node itself to null
+      node.prevNode = null;
+      node = null;
+    }
+    return console.log("Tail node removed");
+  }
+  contains(value) {
+    let node = this.head;
+    console.log(node, node.nextNode);
+    // if (node == null) {
+    //   return console.log("List is empty");
+    // }
+    while (node) {
+      console.log(value);
+      console.log(node.data);
+      if (node.data.name === value) {
+        return console.log(true);
+      }
+      node = node.nextNode;
+    }
+  }
+  find(value) {
+    let node = this.head;
   }
 }
 
@@ -102,7 +122,7 @@ list.append({ name: "foo", age: 25 });
 list.append({ name: "bar", age: 30 });
 list.prepend({ name: "roo", age: 35 });
 
-list.pop();
+console.log(list.contains("roo"));
 
 // console.log(list);
 
