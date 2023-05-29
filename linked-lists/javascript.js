@@ -32,7 +32,6 @@ class LinkedList {
   }
   prepend(data) {
     let node = this.head;
-    console.log(node);
     if (node === null) {
       this.head = new Node(data);
     } else {
@@ -53,6 +52,48 @@ class LinkedList {
     }
     return count;
   }
+  showHead() {
+    let node = this.head;
+    return node;
+  }
+  showTail() {
+    let node = this.head;
+    while (node.nextNode) {
+      node = node.nextNode;
+    }
+    return node;
+  }
+  atIndex(index) {
+    let node = this.head;
+    let count = 0;
+    while (node.nextNode) {
+      //loops through when nextNode is true and if the
+      // count and index dont match up it moves to the next node.
+      if (count === index) {
+        return node;
+      }
+      node = node.nextNode;
+      count += 1;
+    }
+  }
+  pop() {
+    let node = this.head;
+    if (node.nextNode === null) {
+      this.head = null;
+    } else
+      while (node.nextNode) {
+        console.log(node);
+        node = node.nextNode;
+        if (node.nextNode === null) {
+          console.log("here");
+          console.log(node);
+          node = null;
+          return;
+        }
+      }
+
+    // console.log("out while", node);
+  }
 }
 
 const list = new LinkedList();
@@ -61,7 +102,7 @@ list.append({ name: "foo", age: 25 });
 list.append({ name: "bar", age: 30 });
 list.prepend({ name: "roo", age: 35 });
 
-console.log(list.size());
+list.pop();
 
 // console.log(list);
 
