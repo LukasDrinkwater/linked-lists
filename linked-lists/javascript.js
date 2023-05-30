@@ -125,16 +125,19 @@ class LinkedList {
   }
   toString() {
     let node = this.head;
+    let stringOutput = "";
     while (node) {
       //maps each node object to a string array
       const entries = Object.entries(node.data);
       const mappedEntries = entries.map(([key, value]) => `${key}: ${value}`);
       // if (node.nextNode === null) return;
       console.log(mappedEntries);
+      let stringToAdd = ` ${mappedEntries[0]}, ${mappedEntries[1]}  -> `;
+      stringOutput += stringToAdd;
       node = node.nextNode;
     }
-
-    return null;
+    stringOutput += null;
+    return stringOutput;
   }
 }
 
@@ -143,6 +146,8 @@ const list = new LinkedList();
 list.append({ name: "foo", age: 25 });
 list.append({ name: "bar", age: 30 });
 list.prepend({ name: "roo", age: 35 });
+
+console.log(list.toString());
 
 // Three methods to convert objects into arrays
 // Object.keys() converts property names into array
