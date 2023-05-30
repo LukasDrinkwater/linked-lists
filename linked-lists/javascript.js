@@ -6,15 +6,6 @@ class Node {
   }
 }
 
-// append(data) {
-// create a reference to the head.
-// loop so long as that reference has a .next property that is not null
-//  **and update the reference to that .next property each time**
-// eventually, you end up with a Node that has a .next===null
-//  at that point, set the .next to new Node(data), creating a new
-//  last node.
-// }
-
 class LinkedList {
   constructor() {
     this.head = null;
@@ -98,22 +89,52 @@ class LinkedList {
   }
   contains(value) {
     let node = this.head;
-    console.log(node, node.nextNode);
-    // if (node == null) {
-    //   return console.log("List is empty");
-    // }
     while (node) {
-      // console.log(value);
-      // console.log(node.data);
+      //maps each node object to a string array
+      const entries = Object.entries(node.data);
+      const mappedEntries = entries.map(([key, value]) => `${key}: ${value}`);
+      // console.log(mappedEntries);
 
-      // if (node.data.name === value) {
-      //   return console.log(true);
-      // }
+      for (let entry of mappedEntries) {
+        if (entry.includes(value)) {
+          return true;
+        }
+      }
       node = node.nextNode;
     }
+    return false;
   }
   find(value) {
     let node = this.head;
+    let count = 0;
+    while (node) {
+      //maps each node object to a string array
+      const entries = Object.entries(node.data);
+      const mappedEntries = entries.map(([key, value]) => `${key}: ${value}`);
+      // console.log(mappedEntries);
+
+      for (let entry of mappedEntries) {
+        if (entry.includes(value)) {
+          return console.log(`Its at node: ${count}`);
+        }
+      }
+      count += 1;
+      node = node.nextNode;
+    }
+    return null;
+  }
+  toString() {
+    let node = this.head;
+    while (node) {
+      //maps each node object to a string array
+      const entries = Object.entries(node.data);
+      const mappedEntries = entries.map(([key, value]) => `${key}: ${value}`);
+      // if (node.nextNode === null) return;
+      console.log(mappedEntries);
+      node = node.nextNode;
+    }
+
+    return null;
   }
 }
 
@@ -123,20 +144,18 @@ list.append({ name: "foo", age: 25 });
 list.append({ name: "bar", age: 30 });
 list.prepend({ name: "roo", age: 35 });
 
-console.log(list.contains("roo"));
-
 // Three methods to convert objects into arrays
 // Object.keys() converts property names into array
 // Object.values()  covnerts property values into array
 // Object.entries() converts both
 
-// map method
-const newResult = result.map((item) => {
-  const [xx, xx] = item;
-  return xx, xx;
-});
+// // map method
+// const newResult = result.map((item) => {
+//   const [xx, xx] = item;
+//   return xx, xx;
+// });
 
-// for of method
-for (const [xx, xx] of result) {
-  console.log(xx, xx);
-}
+// // for of method
+// for (const [xx, xx] of result) {
+//   console.log(xx, xx);
+// }
