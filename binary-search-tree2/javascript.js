@@ -6,16 +6,35 @@ class Node {
   }
 }
 
+let testArray = [1, 1, 3, 6, 10, 5, 66, 43, 33, 33, 57, 12, 80, 100];
+// let testTree = buildTree(testArray);
+// console.log(testTree);
+
 // binary search tree. I.e the top of the tree
 class BST {
   constructor() {
     this.root = null;
   }
+  // inOrder traveral if node is null - nothing, else recursively call the
+  // function on node.left then do something on
+  inOrder() {
+    let node = this.root;
+    const nodes = [];
+    if (node) {
+      inOrder(node.left);
+      nodes.push(node.value);
+      inOrder(node.right);
+      //make it do something to each node?
+    }
+    return nodes; //or do make it do something to each nodes
+    // or if no parameter is given just output the array
+  }
 }
 
-function buildTree(array, treeName) {
+function buildTree(array) {
   treeName = new BST();
-  let sortedArray = [...new Set(array)];
+  let sortedArray = mergeSort(array);
+  sortedArray = [...new Set(array)];
 
   for (let i = 0; i > length; i++) {
     treeName.insert(sortedArray[i]);
