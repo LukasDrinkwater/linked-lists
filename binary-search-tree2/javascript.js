@@ -12,7 +12,7 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 function printNodes(node) {
-  console.log(node.value);
+  return console.log(node);
 }
 
 class Node {
@@ -107,16 +107,18 @@ class Tree {
   // inOrder traveral if node is null - nothing, else recursively call the
   // function on node.left then do something on
   inOrder(node = this.root, externalFunction) {
+    // console.log(this);
     // let node = this.root;
-    node = this.root;
+    // node = this.root;
     const nodes = [];
     if (node) {
-      inOrder(node.left);
+      // this.inOrder(node.left);
       if (arguments.length >= 2) {
-        externalFunction(node.value);
+        externalFunction(node);
       }
+      this.inOrder(node.left, externalFunction);
       nodes.push(node.value);
-      inOrder(node.right);
+      this.inOrder(node.right, externalFunction);
       //make it do something to each node?
     }
     return nodes;
@@ -136,8 +138,9 @@ function buildTree(array, treeName) {
 let testArray = [40, 11, 54, 15, 7, 47, 100, 99, 1, 1, 3, 3, 76];
 // console.log(mergeSort(testArray));
 let testTree = buildTree(testArray, "testTree");
-// console.log(testTree.root);
-console.log(testTree.inOrder(undefined, printNodes));
+console.log(testTree.find(11));
+// console.log(testTree.inOrder(undefined, printNodes));
+// testTree.inOrder(undefined, printNodes);
 // console.log(prettyPrint(testTree.root));
 
 //
