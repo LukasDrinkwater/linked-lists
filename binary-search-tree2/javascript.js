@@ -109,35 +109,26 @@ class Tree {
     const outputArray = [node.data];
 
     while (nodeQueue.length != 0) {
-      let nodeRef = nodeQueue.shift();
+      let handleNode = nodeQueue.shift();
       console.log(nodeQueue);
-      console.log(nodeRef.data);
+      console.log(handleNode.data);
       console.log(outputArray);
       if (arguments.length >= 2) {
-        externalFunction(nodeRef.value);
+        externalFunction(handleNode.value);
       }
-      if (nodeRef.left != null) {
-        nodeQueue.push(nodeRef.left);
-        outputArray.push(nodeRef.left.data);
+      if (handleNode.left != null) {
+        nodeQueue.push(handleNode.left);
+        outputArray.push(handleNode.left.data);
       }
-      if (nodeRef.right != null) {
-        nodeQueue.push(nodeRef.right);
-        outputArray.push(nodeRef.right.data);
+      if (handleNode.right != null) {
+        nodeQueue.push(handleNode.right);
+        outputArray.push(handleNode.right.data);
       }
       // console.log(nodeRef.data);
     }
     if (arguments.length === 1 || arguments.length === 0) {
       return outputArray;
     }
-    // take first node out of nodeQueue and send node.value to externalFunction
-    // then visit its children and send them to nodeQueue
-
-    // push discovered node.left value to nodeQueue
-
-    // push discovered node.right value to nodeQueue
-
-    // take node at the front of the queue, send node.value to external function
-    // push its .left and .right nodes to the queue
   }
   // inOrder traveral if node is null - nothing, else recursively call the
   // function on node.left then do something on
@@ -184,6 +175,25 @@ class Tree {
     }
     return nodes;
   }
+  height(node = this.root) {
+    let heightNum = 0;
+
+    const getHeight = function (node) {
+      if (node == null) {
+        return 0;
+      } else {
+        let leftHeight = getHeight(node.left);
+        let rightHeight = getHeight(node.right);
+
+        if (leftHeight > rightHeight) {
+          return leftHeight + 1;
+        } else {
+          return rightHeight + 1;
+        }
+      }
+    };
+    return getHeight(node);
+  }
 }
 
 function buildTree(array, treeName) {
@@ -200,7 +210,7 @@ let testArray = [40, 11, 54, 15, 7, 47, 100, 99, 1, 1, 3, 3, 76];
 // console.log(mergeSort(testArray));
 let testTree = buildTree(testArray, "testTree");
 console.log(prettyPrint(testTree.root));
-testTree.levelOrder();
+console.log(testTree.height());
 // console.log(testTree.find(11));
 // console.log(testTree.inOrder(undefined, printNodes));
 // testTree.inOrder(undefined, printNodes);
@@ -214,6 +224,30 @@ testTree.levelOrder();
 //
 //
 //
+
+//javascript-help-0 https://discord.com/channels/505093832157691914/690590001486102589/1114643306085896314
+// Okay, let me show you something
+// doThing(node) {
+//   if (!node) return;
+//   nodeQueue.push(node);
+//   outputArray.push(node.data);
+// }
+
+// levelOrder(node = this.root, externalFunction) {
+//   // ...other code
+//   doThing(nodeRef.left);
+//   doThing(nodeRef.right);
+// }
+// or even better...
+// doThings(...nodes) {
+//   nodes.forEach(node => doThing(node));
+// }
+
+// then you could do:
+// levelOrder() {
+//   // ...rest
+//   doThings(nodeRef.left, nodeRef.right);
+// }
 
 //
 //
