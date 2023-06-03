@@ -103,7 +103,42 @@ class Tree {
     }
     return current;
   }
-  levelOrder() {}
+  levelOrder(node = this.root, externalFunction) {
+    let nodeQueue = [node];
+    // console.log(nodeQueue);
+    const outputArray = [node.data];
+
+    while (nodeQueue.length != 0) {
+      let nodeRef = nodeQueue.shift();
+      console.log(nodeQueue);
+      console.log(nodeRef.data);
+      console.log(outputArray);
+      if (arguments.length >= 2) {
+        externalFunction(nodeRef.value);
+      }
+      if (nodeRef.left != null) {
+        nodeQueue.push(nodeRef.left);
+        outputArray.push(nodeRef.left.data);
+      }
+      if (nodeRef.right != null) {
+        nodeQueue.push(nodeRef.right);
+        outputArray.push(nodeRef.right.data);
+      }
+      // console.log(nodeRef.data);
+    }
+    if (arguments.length === 1 || arguments.length === 0) {
+      return outputArray;
+    }
+    // take first node out of nodeQueue and send node.value to externalFunction
+    // then visit its children and send them to nodeQueue
+
+    // push discovered node.left value to nodeQueue
+
+    // push discovered node.right value to nodeQueue
+
+    // take node at the front of the queue, send node.value to external function
+    // push its .left and .right nodes to the queue
+  }
   // inOrder traveral if node is null - nothing, else recursively call the
   // function on node.left then do something on
   inOrder(node = this.root, externalFunction) {
@@ -123,6 +158,32 @@ class Tree {
     }
     return nodes;
   }
+  postOrder(node = this.root, externalFunction) {
+    const nodes = [];
+    if (node) {
+      // this.inOrder(node.left);
+      if (arguments.length >= 2) {
+        externalFunction(node);
+      }
+      this.postOrder(node.left, externalFunction);
+      this.postOrder(node.right, externalFunction);
+      nodes.push(node.value);
+    }
+    return nodes;
+  }
+  preOrder(node = this.root, externalFunction) {
+    const nodes = [];
+    if (node) {
+      // this.inOrder(node.left);
+      if (arguments.length >= 2) {
+        externalFunction(node);
+      }
+      nodes.push(node.value);
+      this.preOrder(node.left, externalFunction);
+      this.preOrder(node.right, externalFunction);
+    }
+    return nodes;
+  }
 }
 
 function buildTree(array, treeName) {
@@ -138,10 +199,11 @@ function buildTree(array, treeName) {
 let testArray = [40, 11, 54, 15, 7, 47, 100, 99, 1, 1, 3, 3, 76];
 // console.log(mergeSort(testArray));
 let testTree = buildTree(testArray, "testTree");
-console.log(testTree.find(11));
+console.log(prettyPrint(testTree.root));
+testTree.levelOrder();
+// console.log(testTree.find(11));
 // console.log(testTree.inOrder(undefined, printNodes));
 // testTree.inOrder(undefined, printNodes);
-// console.log(prettyPrint(testTree.root));
 
 //
 //
