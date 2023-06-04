@@ -194,6 +194,24 @@ class Tree {
     };
     return getHeight(node);
   }
+  depth(node = this.root) {
+    if (!node) return 0;
+    //return the max value from the recursive function
+    return Math.max(this.depth(node.left), this.depth(node.right)) + 1;
+  }
+  isBalanced() {
+    let node = this.root;
+
+    if (node == null) return true;
+
+    let leftHalf = this.height(node.left);
+    let rightHalf = this.height(node.right);
+
+    console.log(leftHalf, rightHalf);
+    if (Math.abs(leftHalf - rightHalf) <= 1) {
+      return true;
+    } else return false;
+  }
 }
 
 function buildTree(array, treeName) {
@@ -206,14 +224,15 @@ function buildTree(array, treeName) {
   return newTree;
 }
 
-let testArray = [40, 11, 54, 15, 7, 47, 100, 99, 1, 1, 3, 3, 76];
+let testArray = [40, 11, 54, 15, 7, 47, 100, 99, 1, 1, 3, 3, 76, 20];
+let testArray2 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324, 6675, 7356];
+// let sortedTestArray = mergeSort(testArray);
+mergeSort(testArray);
+console.log(testArray);
 // console.log(mergeSort(testArray));
 let testTree = buildTree(testArray, "testTree");
+// let testNode = testTree.find(7);
 console.log(prettyPrint(testTree.root));
-console.log(testTree.height());
-// console.log(testTree.find(11));
-// console.log(testTree.inOrder(undefined, printNodes));
-// testTree.inOrder(undefined, printNodes);
 
 //
 //
@@ -269,6 +288,41 @@ console.log(testTree.height());
 //
 //
 
+function mergeSort(array) {
+  const half = array.length / 2;
+
+  // Base case or terminating case
+  if (array.length < 2) {
+    return array;
+  }
+
+  const left = array.splice(0, half);
+  console.log("array", array);
+  // return merge(mergeSort(left), mergeSort(array));
+  return merge(mergeSort(left), mergeSort(array));
+}
+
+function merge(left, right) {
+  let array = [];
+
+  // Break out of loop if any array is empty
+  while (left.length && right.length) {
+    // Pick the smallest from the left and right sub arrays
+    if (left[0] < right[0]) {
+      // shift removed the first element from the array.
+      // so it pushes the element at index 0 then shifts is from the array.
+      array.push(left.shift());
+    } else {
+      array.push(right.shift());
+    }
+  }
+
+  // Concatenating the leftover elements because they are already sorted.
+  // (in case we didn't go through the entire left or right array)
+  console.log([...array, ...left, ...right]);
+  return [...array, ...left, ...right];
+}
+
 // function mergeSort(array) {
 //   const half = array.length / 2;
 
@@ -287,15 +341,13 @@ console.log(testTree.height());
 //   while (left.length && right.length) {
 //     // Pick the smaller among the smallest element of left and right sub arrays
 //     if (left[0] < right[0]) {
-//       // shift removed the first element from the array.
-//       // so it pushes the element at index 0 then shifts is from the array.
 //       arr.push(left.shift());
 //     } else {
 //       arr.push(right.shift());
 //     }
 //   }
 
-//   // Concatenating the leftover elements because they are already sorted.
+//   // Concatenating the leftover elements
 //   // (in case we didn't go through the entire left or right array)
 //   return [...arr, ...left, ...right];
 // }
