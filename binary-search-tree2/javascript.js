@@ -132,29 +132,32 @@ class Tree {
   }
   // inOrder traveral if node is null - nothing, else recursively call the
   // function on node.left then do something on
-  inOrder(node = this.root, externalFunction) {
-    // console.log(this);
-    // let node = this.root;
-    // node = this.root;
-    const nodes = [];
-    if (node) {
-      // this.inOrder(node.left);
-      if (arguments.length >= 2) {
-        externalFunction(node);
-      }
-      this.inOrder(node.left, externalFunction);
-      nodes.push(node.value);
-      this.inOrder(node.right, externalFunction);
-      //make it do something to each node?
+  inOrder(node = this.root, externalFunction, nodeOutput = []) {
+    // const nodeOutput = [];
+
+    if (node == null) {
+      return;
     }
-    return nodes;
+    if (typeof externalFunction === "function") {
+      console.log("here");
+      this.inOrder(node.left, externalFunction);
+      externalFunction(node.data);
+      this.inOrder(node.right, externalFunction);
+    }
+
+    // console.log(node.data);
+    this.inOrder(node.left, undefined, nodeOutput);
+    nodeOutput.push(node.data);
+    this.inOrder(node.right, undefined, nodeOutput);
+
+    return nodeOutput;
   }
   postOrder(node = this.root, externalFunction) {
     const nodes = [];
     if (node) {
       // this.inOrder(node.left);
       if (arguments.length >= 2) {
-        externalFunction(node);
+        externalFunction(node.data);
       }
       this.postOrder(node.left, externalFunction);
       this.postOrder(node.right, externalFunction);
@@ -212,6 +215,52 @@ class Tree {
       return true;
     } else return false;
   }
+  rebalance() {
+    let node = this.root;
+    let newNodes = this.inOrder(node);
+    // console.log(newNodes);
+    return newNodes;
+  }
+  mergeSort = (array) => {
+    if (array.length <= 1) {
+      return array;
+    }
+
+    const middleIndex = Math.floor(array.length / 2);
+    const leftArray = array.slice(0, middleIndex);
+    const rightArray = array.slice(middleIndex);
+
+    // recursively call merge sort of left then right array
+    return merge(mergeSort(leftArray), mergeSort(rightArray));
+  };
+
+  // left and right array are sorted.
+  merge = (leftArray, rightArray) => {
+    const outputArray = [];
+    let leftIndex = 0;
+    let rightIndex = 0;
+
+    while (leftIndex < leftArray.length && rightIndex < rightArray.length) {
+      const leftEl = leftArray[leftIndex];
+      const rightEl = rightArray[rightIndex];
+
+      if (leftEl < rightEl) {
+        outputArray.push(leftEl);
+        leftIndex++;
+      } else {
+        outputArray.push(rightEl);
+        rightIndex++;
+      }
+    }
+    // ... spread seperates the array into comma seperated values
+    // if there is 1 left over element in either left or right array
+    // it will also add when to the return
+    return [
+      ...outputArray,
+      ...leftArray.slice(leftIndex),
+      ...rightArray.slice(rightIndex),
+    ];
+  };
 }
 
 function buildTree(array, treeName) {
@@ -224,16 +273,18 @@ function buildTree(array, treeName) {
   return newTree;
 }
 
-// let testArray = [40, 11, 54, 15, 7, 47, 100, 99, 1, 1, 3, 3, 76, 20];
-let testArray2 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324, 6675, 7356];
+let testArray = [40, 11, 54, 15, 7, 47, 100, 99, 1, 1, 3, 3, 76, 20];
+// let testArray2 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324, 6675, 7356];
 // let testArray3 = [1, 4, 2, 8, 345];
 // let sortedTestArray = mergeSort(testArray);
 // mergeSort(testArray3);
 // console.log(testArray);
 // console.log(mergeSort(testArray));
-// let testTree = buildTree(testArray, "testTree");
+let testTree = buildTree(testArray, "testTree");
 // let testNode = testTree.find(7);
-// console.log(prettyPrint(testTree.root));
+prettyPrint(testTree.root);
+// console.log(testTree.rebalance());
+console.log(testTree.rebalance());
 
 //
 //
@@ -325,45 +376,45 @@ let testArray2 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324, 6675, 7356];
 // }
 
 // recursive
-const mergeSort = (array) => {
-  if (array.length <= 1) {
-    return array;
-  }
+// const mergeSort = (array) => {
+//   if (array.length <= 1) {
+//     return array;
+//   }
 
-  const middleIndex = Math.floor(array.length / 2);
-  const leftArray = array.slice(0, middleIndex);
-  const rightArray = array.slice(middleIndex);
+//   const middleIndex = Math.floor(array.length / 2);
+//   const leftArray = array.slice(0, middleIndex);
+//   const rightArray = array.slice(middleIndex);
 
-  // recursively call merge sort of left then right array
-  return merge(mergeSort(leftArray), mergeSort(rightArray));
-};
+//   // recursively call merge sort of left then right array
+//   return merge(mergeSort(leftArray), mergeSort(rightArray));
+// };
 
-// left and right array are sorted.
-const merge = (leftArray, rightArray) => {
-  const outputArray = [];
-  let leftIndex = 0;
-  let rightIndex = 0;
+// // left and right array are sorted.
+// const merge = (leftArray, rightArray) => {
+//   const outputArray = [];
+//   let leftIndex = 0;
+//   let rightIndex = 0;
 
-  while (leftIndex < leftArray.length && rightIndex < rightArray.length) {
-    const leftEl = leftArray[leftIndex];
-    const rightEl = rightArray[rightIndex];
+//   while (leftIndex < leftArray.length && rightIndex < rightArray.length) {
+//     const leftEl = leftArray[leftIndex];
+//     const rightEl = rightArray[rightIndex];
 
-    if (leftEl < rightEl) {
-      outputArray.push(leftEl);
-      leftIndex++;
-    } else {
-      outputArray.push(rightEl);
-      rightIndex++;
-    }
-  }
-  // ... spread seperates the array into comma seperated values
-  // if there is 1 left over element in either left or right array
-  // it will also add when to the return
-  return [
-    ...outputArray,
-    ...leftArray.slice(leftIndex),
-    ...rightArray.slice(rightIndex),
-  ];
-};
+//     if (leftEl < rightEl) {
+//       outputArray.push(leftEl);
+//       leftIndex++;
+//     } else {
+//       outputArray.push(rightEl);
+//       rightIndex++;
+//     }
+//   }
+//   // ... spread seperates the array into comma seperated values
+//   // if there is 1 left over element in either left or right array
+//   // it will also add when to the return
+//   return [
+//     ...outputArray,
+//     ...leftArray.slice(leftIndex),
+//     ...rightArray.slice(rightIndex),
+//   ];
+// };
 
-console.log(mergeSort(testArray2));
+// console.log(mergeSort(testArray2));
