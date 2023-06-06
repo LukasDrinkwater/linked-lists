@@ -187,7 +187,7 @@ class Tree {
     return nodeOutput;
   }
   height(node = this.root) {
-    let heightNum = 0;
+    // let heightNum = 0;
 
     const getHeight = function (node) {
       if (node == null) {
@@ -224,10 +224,23 @@ class Tree {
     } else return false;
   }
   rebalance() {
-    let node = this.root;
-    let newNodes = this.preOrder(node);
-    let newTree = buildTree(newNodes);
-    return newTree;
+    // let node = this.root;
+    // let newNodes = this.preOrder(node);
+    // let newTree = buildTree(newNodes);
+    // return newTree;
+    let inOrderArray = this.inOrder();
+    inOrderArray = this.mergeSort(inOrderArray);
+
+    return buildTree(inOrderArray);
+    // set the middle element of array as root
+    // function sortedArrayToBST(array, start, end){
+    //   if (start > end){
+    //     return null;
+    //   }
+    //   // find middle element then make it the root.
+    //   let mid = ((start + end) / 2);
+    //   let node = new Node(array[mid]);
+    // }
   }
   mergeSort = (array) => {
     if (array.length <= 1) {
@@ -239,7 +252,7 @@ class Tree {
     const rightArray = array.slice(middleIndex);
 
     // recursively call merge sort of left then right array
-    return merge(mergeSort(leftArray), mergeSort(rightArray));
+    return this.merge(this.mergeSort(leftArray), this.mergeSort(rightArray));
   };
 
   // left and right array are sorted.
@@ -272,13 +285,37 @@ class Tree {
 }
 
 function buildTree(array) {
+  if (array.length === 0) {
+    return null;
+  }
+
   let newTree;
   newTree = new Tree();
   array = [...new Set(array)];
   // console.log(array);
-  for (let i = 0; i < array.length; i++) {
-    newTree.insert(array[i]);
+
+  let n = array.length;
+  newTree.root = sortedArrayToBST(array, 0, n - 1);
+
+  function sortedArrayToBST(array, start, end) {
+    // base case
+    if (start > end) {
+      return null;
+    }
+
+    let mid = parseInt((start + end) / 2);
+    let node = new Node(array[mid]);
+
+    // recusively construct the left subtree and make left child of root
+    node.left = sortedArrayToBST(array, start, mid - 1);
+    // recursively construst the right subtree and make right child of root
+    node.right = sortedArrayToBST(array, mid + 1, end);
+    return node;
   }
+
+  // for (let i = 0; i < array.length; i++) {
+  //   newTree.insert(array[i]);
+  // }
   return newTree;
 }
 
@@ -291,16 +328,17 @@ let testTree = buildTree(testArray);
 
 // let testNode = testTree.find(7);
 prettyPrint(testTree.root);
-console.log(testTree.inOrder());
+// console.log(testTree.inOrder());
 // console.log(testTree.preOrder());
 // console.log(testTree.postOrder());
 testTree.insert(66);
 testTree.insert(68);
 testTree.insert(70);
-console.log(testTree.inOrder());
+// console.log(testTree.inOrder());
 
 console.log("_____________________________________________________");
 testTree = testTree.rebalance();
+
 // console.log(testTree.inOrder());
 prettyPrint(testTree.root);
 
