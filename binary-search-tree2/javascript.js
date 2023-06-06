@@ -139,7 +139,6 @@ class Tree {
       return;
     }
     if (typeof externalFunction === "function") {
-      console.log("here");
       this.inOrder(node.left, externalFunction);
       externalFunction(node.data);
       this.inOrder(node.right, externalFunction);
@@ -152,31 +151,40 @@ class Tree {
 
     return nodeOutput;
   }
-  postOrder(node = this.root, externalFunction) {
-    const nodes = [];
-    if (node) {
-      // this.inOrder(node.left);
-      if (arguments.length >= 2) {
-        externalFunction(node.data);
-      }
-      this.postOrder(node.left, externalFunction);
-      this.postOrder(node.right, externalFunction);
-      nodes.push(node.value);
+  postOrder(node = this.root, externalFunction, nodeOutput = []) {
+    if (node == null) {
+      return;
     }
-    return nodes;
+    if (typeof externalFunction === "function") {
+      this.inOrder(node.left, externalFunction);
+      this.inOrder(node.right, externalFunction);
+      externalFunction(node.data);
+    }
+
+    // console.log(node.data);
+    this.inOrder(node.left, undefined, nodeOutput);
+    this.inOrder(node.right, undefined, nodeOutput);
+    nodeOutput.push(node.data);
+
+    return nodeOutput;
   }
-  preOrder(node = this.root, externalFunction) {
-    const nodes = [];
-    if (node) {
-      // this.inOrder(node.left);
-      if (arguments.length >= 2) {
-        externalFunction(node);
-      }
-      nodes.push(node.value);
-      this.preOrder(node.left, externalFunction);
-      this.preOrder(node.right, externalFunction);
+  preOrder(node = this.root, externalFunction, nodeOutput = []) {
+    if (node == null) {
+      return;
     }
-    return nodes;
+    if (typeof externalFunction === "function") {
+      console.log("here");
+      externalFunction(node.data);
+      this.inOrder(node.left, externalFunction);
+      this.inOrder(node.right, externalFunction);
+    }
+
+    // console.log(node.data);
+    nodeOutput.push(node.data);
+    this.inOrder(node.left, undefined, nodeOutput);
+    this.inOrder(node.right, undefined, nodeOutput);
+
+    return nodeOutput;
   }
   height(node = this.root) {
     let heightNum = 0;
@@ -217,9 +225,9 @@ class Tree {
   }
   rebalance() {
     let node = this.root;
-    let newNodes = this.inOrder(node);
-    // console.log(newNodes);
-    return newNodes;
+    let newNodes = this.preOrder(node);
+    let newTree = buildTree(newNodes);
+    return newTree;
   }
   mergeSort = (array) => {
     if (array.length <= 1) {
@@ -263,10 +271,11 @@ class Tree {
   };
 }
 
-function buildTree(array, treeName) {
-  let newTree = treeName;
+function buildTree(array) {
+  let newTree;
   newTree = new Tree();
   array = [...new Set(array)];
+  // console.log(array);
   for (let i = 0; i < array.length; i++) {
     newTree.insert(array[i]);
   }
@@ -277,14 +286,23 @@ let testArray = [40, 11, 54, 15, 7, 47, 100, 99, 1, 1, 3, 3, 76, 20];
 // let testArray2 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324, 6675, 7356];
 // let testArray3 = [1, 4, 2, 8, 345];
 // let sortedTestArray = mergeSort(testArray);
-// mergeSort(testArray3);
-// console.log(testArray);
-// console.log(mergeSort(testArray));
-let testTree = buildTree(testArray, "testTree");
+
+let testTree = buildTree(testArray);
+
 // let testNode = testTree.find(7);
 prettyPrint(testTree.root);
-// console.log(testTree.rebalance());
-console.log(testTree.rebalance());
+console.log(testTree.inOrder());
+// console.log(testTree.preOrder());
+// console.log(testTree.postOrder());
+testTree.insert(66);
+testTree.insert(68);
+testTree.insert(70);
+console.log(testTree.inOrder());
+
+console.log("_____________________________________________________");
+testTree = testTree.rebalance();
+// console.log(testTree.inOrder());
+prettyPrint(testTree.root);
 
 //
 //
