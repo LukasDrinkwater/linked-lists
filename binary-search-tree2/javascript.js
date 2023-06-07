@@ -224,23 +224,10 @@ class Tree {
     } else return false;
   }
   rebalance() {
-    // let node = this.root;
-    // let newNodes = this.preOrder(node);
-    // let newTree = buildTree(newNodes);
-    // return newTree;
     let inOrderArray = this.inOrder();
     inOrderArray = this.mergeSort(inOrderArray);
 
     return buildTree(inOrderArray);
-    // set the middle element of array as root
-    // function sortedArrayToBST(array, start, end){
-    //   if (start > end){
-    //     return null;
-    //   }
-    //   // find middle element then make it the root.
-    //   let mid = ((start + end) / 2);
-    //   let node = new Node(array[mid]);
-    // }
   }
   mergeSort = (array) => {
     if (array.length <= 1) {
@@ -313,33 +300,20 @@ function buildTree(array) {
     return node;
   }
 
-  // for (let i = 0; i < array.length; i++) {
-  //   newTree.insert(array[i]);
-  // }
   return newTree;
 }
 
 let testArray = [40, 11, 54, 15, 7, 47, 100, 99, 1, 1, 3, 3, 76, 20];
 // let testArray2 = [1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324, 6675, 7356];
 // let testArray3 = [1, 4, 2, 8, 345];
-// let sortedTestArray = mergeSort(testArray);
 
 let testTree = buildTree(testArray);
-
-// let testNode = testTree.find(7);
 prettyPrint(testTree.root);
-// console.log(testTree.inOrder());
-// console.log(testTree.preOrder());
-// console.log(testTree.postOrder());
 testTree.insert(66);
 testTree.insert(68);
 testTree.insert(70);
-// console.log(testTree.inOrder());
-
 console.log("_____________________________________________________");
 testTree = testTree.rebalance();
-
-// console.log(testTree.inOrder());
 prettyPrint(testTree.root);
 
 //
@@ -389,88 +363,3 @@ prettyPrint(testTree.root);
 //
 //
 //
-// MERGE SORT FUNCTIONS
-//
-//
-//
-//
-//
-
-// function mergeSort(array) {
-//   const half = array.length / 2;
-
-//   // Base case or terminating case
-//   if (array.length < 2) {
-//     return array;
-//   }
-
-//   const left = array.splice(0, half);
-//   console.log("array", array);
-//   // return merge(mergeSort(left), mergeSort(array));
-//   return merge(mergeSort(left), mergeSort(array));
-// }
-
-// function merge(left, right) {
-//   let array = [];
-
-//   // Break out of loop if any array is empty
-//   while (left.length && right.length) {
-//     // Pick the smallest from the left and right sub arrays
-//     if (left[0] < right[0]) {
-//       // shift removed the first element from the array.
-//       // so it pushes the element at index 0 then shifts is from the array.
-//       array.push(left.shift());
-//     } else {
-//       array.push(right.shift());
-//     }
-//   }
-
-//   // Concatenating the leftover elements because they are already sorted.
-//   // (in case we didn't go through the entire left or right array)
-//   console.log([...array, ...left, ...right]);
-//   return [array, left, right];
-// }
-
-// recursive
-// const mergeSort = (array) => {
-//   if (array.length <= 1) {
-//     return array;
-//   }
-
-//   const middleIndex = Math.floor(array.length / 2);
-//   const leftArray = array.slice(0, middleIndex);
-//   const rightArray = array.slice(middleIndex);
-
-//   // recursively call merge sort of left then right array
-//   return merge(mergeSort(leftArray), mergeSort(rightArray));
-// };
-
-// // left and right array are sorted.
-// const merge = (leftArray, rightArray) => {
-//   const outputArray = [];
-//   let leftIndex = 0;
-//   let rightIndex = 0;
-
-//   while (leftIndex < leftArray.length && rightIndex < rightArray.length) {
-//     const leftEl = leftArray[leftIndex];
-//     const rightEl = rightArray[rightIndex];
-
-//     if (leftEl < rightEl) {
-//       outputArray.push(leftEl);
-//       leftIndex++;
-//     } else {
-//       outputArray.push(rightEl);
-//       rightIndex++;
-//     }
-//   }
-//   // ... spread seperates the array into comma seperated values
-//   // if there is 1 left over element in either left or right array
-//   // it will also add when to the return
-//   return [
-//     ...outputArray,
-//     ...leftArray.slice(leftIndex),
-//     ...rightArray.slice(rightIndex),
-//   ];
-// };
-
-// console.log(mergeSort(testArray2));
